@@ -1,1 +1,0 @@
-# jschz-phonebook-mobile
