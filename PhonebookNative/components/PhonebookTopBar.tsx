@@ -3,7 +3,7 @@ import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowDownZA, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
-// import PhonebookForm from './PhonebookForm';
+import PhonebookForm from './PhonebookForm';
 
 export default function PhonebookTopBar(){
     const [keyword, setKeyword] = useState('')
@@ -22,7 +22,7 @@ export default function PhonebookTopBar(){
     <View style={styles.topBar} accessibilityLabel="PhonebookTopBar">
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleSortChange} accessibilityLabel="sort" style={styles.sortButton}>
-          <FontAwesomeIcon icon={faArrowDownZA} />
+          <FontAwesomeIcon icon={faArrowDownZA} size={20} />
         </TouchableOpacity>
       </View>
       <View style={styles.searchContainer} accessibilityLabel="search">
@@ -35,7 +35,7 @@ export default function PhonebookTopBar(){
         />
       </View>
       <View style={styles.formContainer}>
-        {/* <PhonebookForm /> */}
+        <PhonebookForm />
       </View>
     </View>
   );
@@ -43,8 +43,8 @@ export default function PhonebookTopBar(){
 
 const styles = StyleSheet.create({
   topBar: {
-    left: 10,
-    right: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   sortButton: {
-    backgroundColor: '#AF8210',
     padding: 10,
+    backgroundColor: '#AF8210',
     borderRadius: 5,
   },
   searchContainer: {
