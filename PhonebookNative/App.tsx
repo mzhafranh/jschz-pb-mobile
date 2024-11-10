@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -15,18 +15,17 @@ import {
   Text,
   useColorScheme,
   View,
+  Platform
 } from 'react-native';
 
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
+  Colors
 } from 'react-native/Libraries/NewAppScreen';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faArrowDownZA } from '@fortawesome/free-solid-svg-icons/faArrowDownZA'
+
+import PhonebookBox from './components/PhonebookBox';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -64,17 +63,23 @@ function App(): React.JSX.Element {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+  const AndroidSafeArea = {
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? (StatusBar.currentHeight + 16 ) : 0
+  }
 
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView style={[backgroundStyle, AndroidSafeArea]}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+      <PhonebookBox/>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-          <FontAwesomeIcon icon={faArrowDownZA} />
+        style={backgroundStyle}
+        >
+        <Text>aaa</Text>
       </ScrollView>
     </SafeAreaView>
   );
