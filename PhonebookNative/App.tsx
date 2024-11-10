@@ -68,6 +68,15 @@ function App(): React.JSX.Element {
     paddingTop: Platform.OS === "android" ? (StatusBar.currentHeight + 16 ) : 0
   }
 
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://192.168.1.5:3001/api/phonebooks/`)
+      .then(response => response.json())
+      .then(json => setData(json))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
   return (
     <SafeAreaView style={[backgroundStyle, AndroidSafeArea]}>
       <StatusBar
@@ -78,8 +87,9 @@ function App(): React.JSX.Element {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}
+        contentContainerStyle={{paddingLeft:10, paddingRight:10}}
         >
-        <Text>aaa</Text>
+        {data ? <Text>{JSON.stringify(data)}</Text> : <Text>Loading...</Text>}
       </ScrollView>
     </SafeAreaView>
   );
