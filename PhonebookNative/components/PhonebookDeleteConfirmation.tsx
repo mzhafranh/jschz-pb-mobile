@@ -5,10 +5,7 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 // import { removePhonebook } from '../actions';
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 
-export default function PhonebookDeleteConfirmation() {
-    // const dispatch = useDispatch();
-    // const { keyword, sort } = useSelector((state) => state.phonebooks);
-    const [keyword, setKeyword] = useState('')
+export default function PhonebookDeleteConfirmation({id, removePhonebook}) {
 
     const [isFormVisible, setIsFormVisible] = useState(false);
 
@@ -21,15 +18,15 @@ export default function PhonebookDeleteConfirmation() {
     };
 
     const handleDelete = () => {
-        // dispatch(removePhonebook(id, keyword, sort));
+        removePhonebook(id, keyword, sort);
         setIsFormVisible(false);
     };
 
     return (
         <>
             {/* Button to open the confirmation modal */}
-            <TouchableOpacity onPress={handleOpenConfirmation} style={styles.deleteButton}>
-                <FontAwesomeIcon icon={faTrashCan} size={24} color="white" />
+            <TouchableOpacity onPress={handleOpenConfirmation} style={{ marginTop: 5 }}>
+                <FontAwesomeIcon icon={faTrashCan} size={20}/>
             </TouchableOpacity>
 
             {/* Fullscreen modal */}

@@ -5,12 +5,7 @@ import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 // import { addPhonebook } from '../actions';
 import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 
-export default function PhonebookForm() {
-    // const dispatch = useDispatch();
-    // const { keyword, sort } = useSelector((state) => state.phonebooks);
-
-    const [sort, setSort] = useState('asc')
-    const [keyword, setKeyword] = useState('')
+export default function PhonebookForm({add}) {
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
@@ -24,7 +19,7 @@ export default function PhonebookForm() {
     };
 
     const handleSubmit = () => {
-        // dispatch(addPhonebook(name, phone, keyword, sort));
+        addPhonebook(name, phone, keyword, sort);
 
         console.log("Form Submitted", { name, phone });
 

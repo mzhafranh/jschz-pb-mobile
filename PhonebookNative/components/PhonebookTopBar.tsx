@@ -5,9 +5,7 @@ import { faArrowDownZA, faMagnifyingGlass } from '@fortawesome/free-solid-svg-ic
 import { useState } from 'react';
 import PhonebookForm from './PhonebookForm';
 
-export default function PhonebookTopBar(){
-    const [keyword, setKeyword] = useState('')
-    const sort = 'asc'
+export default function PhonebookTopBar({keyword, sort, add}){
     const handleSearchChange = (value: React.SetStateAction<string>) => {
         setKeyword(value)
         // refreshPhonebookData(value, sort, 1)
@@ -35,7 +33,7 @@ export default function PhonebookTopBar(){
         />
       </View>
       <View style={styles.formContainer}>
-        <PhonebookForm />
+        <PhonebookForm add={add}/>
       </View>
     </View>
   );
@@ -47,6 +45,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom:10
   },
   buttonContainer: {
     marginRight: 8,
