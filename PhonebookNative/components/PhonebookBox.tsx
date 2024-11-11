@@ -12,7 +12,7 @@ export default function PhonebookBox({phonebooks, page, totalPage, keyword, sort
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
       };
     
-    console.log(phonebooks)
+    console.log(page, totalPage)
     
     return (
         <View>

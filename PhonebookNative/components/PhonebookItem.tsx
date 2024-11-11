@@ -5,12 +5,38 @@ import { faUserTie, faPenToSquare, faTrashCan, faFloppyDisk } from '@fortawesome
 import PhonebookDeleteConfirmation from "./PhonebookDeleteConfirmation";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { local_url } from "../App";
+import { launchImageLibrary } from "react-native-image-picker";
 
 export default function PhonebookItem({ id, avatar, name, phone, remove, update, uploadAvatar }) {
     const [isEditing, setIsEditing] = useState(false);
     const [editableName, setEditableName] = useState(name);
     const [editablePhone, setEditablePhone] = useState(phone);
     const fileInputRef = useRef(null);
+
+    const handlePickImage = () => {
+        launchImageLibrary(
+          {
+            mediaType: 'photo',
+            quality: 0.5, // Set image quality between 0 and 1
+            maxWidth: 600, // Resize image
+            maxHeight: 600,
+          },
+          (response) => {
+            if (response.didCancel) {
+              console.log('User cancelled image picker');
+            } else if (response.errorCode) {
+              console.log('ImagePicker Error: ', response.errorCode);
+            } else {
+              // Set the selected image's URI to the state
+              const selectedImageUri = response.assets[0].uri;
+              if (selectedImageUri) {
+                uploadAvatar(selectedImageUri, id);
+                console.log('Image uploaded successfully:', selectedImageUri);
+              }
+            }
+          }
+        );
+      };
 
     const handleEditClick = () => {
         setIsEditing(!isEditing);
@@ -29,29 +55,17 @@ export default function PhonebookItem({ id, avatar, name, phone, remove, update,
         setIsEditing(false);
     };
 
-    const handleIconClick = () => {
-        fileInputRef.current.click();
-    };
-
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (!file) {
-            Alert.alert('No file selected');
-            return;
-        }
-        uploadAvatar(file, id);
-    };
-
     return (
         <View style={{ marginBottom: 5, marginTop: 5 }}>
-            <View style={{ backgroundColor: "#CCC", paddingLeft: 5, paddingVertical: 10, borderRadius: 5, borderStyle: "solid", borderWidth: 1 }}>
+            <View style={{ backgroundColor: "#CCC", paddingLeft: 10, paddingVertical: 10, borderRadius: 5, borderStyle: "solid", borderWidth: 1 }}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <View style={{borderRadius: 40, height: 80, width: 80, overflow:"hidden", display:"flex", alignItems:"center", marginRight:16}}>
-                        <TouchableOpacity onPress={handleIconClick} style={{ marginHorizontal: 10 }}>
+                        <TouchableOpacity onPress={handlePickImage} style={{ marginHorizontal: 10 }}>
                             {avatar !== "null" ? (
                                 <Image
                                     source={{ uri: `${local_url}/uploads/${avatar}` }}
-                                    
+                                    resizeMode="cover"
+                                    style={{ width: 80, height: 80, borderRadius: 40 }}
                                 />
                             ) : (
                                 <FontAwesomeIcon icon={faUserTie} size={80} />
@@ -103,7 +117,6 @@ export default function PhonebookItem({ id, avatar, name, phone, remove, update,
                     </View>
                 </View>
             </View>
-            {/* Placeholder for file input - file uploads need to be implemented differently in React Native */}
         </View>
     );
 }

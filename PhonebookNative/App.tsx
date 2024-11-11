@@ -200,11 +200,13 @@ function App(): React.JSX.Element {
     if (!file) {
       return;
     }
-
     // Create FormData object and append the file
     const formData = new FormData();
-    formData.append('avatar', file); // 'file' is the key used in the server
-
+    formData.append('avatar', {
+      uri: file,
+      type: 'image/jpeg', // Adjust the MIME type based on your file (could be 'image/png', etc.)
+      name: 'avatar.jpg', // Adjust the name based on your file's extension
+    }); // 'file' is the key used in the server
     try {
       const response = await fetch(`${local_url}/api/phonebooks/${id}/avatar`, {
         method: 'PUT',
@@ -217,7 +219,7 @@ function App(): React.JSX.Element {
 
       const result = await response.json();
 
-      fetchPhonebookData(keyword, 'asc', 1)
+      refreshPhonebookData(keyword, 'asc', 1)
       console.log('File uploaded successfully:', result);
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -237,7 +239,7 @@ function App(): React.JSX.Element {
     const contentOffsetY = event.nativeEvent.contentOffset.y;
     const viewportHeight = event.nativeEvent.layoutMeasurement.height;
 
-    if (contentOffsetY + viewportHeight >= contentHeight - 100 && !loading) {
+    if (contentOffsetY + viewportHeight >= contentHeight - 200 && !loading) {
       // Trigger the next page fetch when near the bottom
       if (page < totalPage) {
         setPage(prevPage => prevPage + 1);

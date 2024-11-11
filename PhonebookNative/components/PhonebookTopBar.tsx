@@ -6,7 +6,7 @@ import { useState } from 'react';
 import PhonebookForm from './PhonebookForm';
 
 export default function PhonebookTopBar({keyword, sort, add, refreshPhonebookData, setKeyword}){
-    const handleSearchChange = (value: React.SetStateAction<string>) => {
+    const handleSearchChange = (value) => {
         setKeyword(value)
         refreshPhonebookData(value, sort, 1)
     };
