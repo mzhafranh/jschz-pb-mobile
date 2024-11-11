@@ -224,6 +224,27 @@ function App(): React.JSX.Element {
     }
   };
 
+   // Fetch data when page, keyword, or sort changes
+   useEffect(() => {
+    if (page > 1 && page <= totalPage) {
+      fetchPhonebookData(keyword, sort, page);
+    }
+  }, [page, keyword, sort]);
+
+  // Handle scroll event to load more data
+  const handleScroll = (event) => {
+    const contentHeight = event.nativeEvent.contentSize.height;
+    const contentOffsetY = event.nativeEvent.contentOffset.y;
+    const viewportHeight = event.nativeEvent.layoutMeasurement.height;
+
+    if (contentOffsetY + viewportHeight >= contentHeight - 100 && !loading) {
+      // Trigger the next page fetch when near the bottom
+      if (page < totalPage) {
+        setPage(prevPage => prevPage + 1);
+      }
+    }
+  };
+
   if (!loading){
     return (
       <SafeAreaView style={[backgroundStyle, AndroidSafeArea]}>
@@ -231,7 +252,7 @@ function App(): React.JSX.Element {
           barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor={backgroundStyle.backgroundColor}
         />
-        <PhonebookBox phonebooks={phonebooks} page={page} totalPage={totalPage} keyword={keyword} sort={sort} removePhonebook={removePhonebook} updatePhonebook={updatePhonebook} handleFileUpload={handleFileUpload} addPhonebook={addPhonebook}/>
+        <PhonebookBox phonebooks={phonebooks} page={page} totalPage={totalPage} keyword={keyword} sort={sort} removePhonebook={removePhonebook} updatePhonebook={updatePhonebook} handleFileUpload={handleFileUpload} addPhonebook={addPhonebook} handleScroll={handleScroll}/>
       </SafeAreaView>
     );
   }

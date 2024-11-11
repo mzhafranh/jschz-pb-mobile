@@ -3,7 +3,7 @@ import { View, ScrollView, useColorScheme } from "react-native";
 import PhonebookItem from "./PhonebookItem";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
-export default function PhonebookList({ data, removePhonebook, updatePhonebook, uploadAvatar }) {
+export default function PhonebookList({ data, removePhonebook, updatePhonebook, uploadAvatar, handleScroll }) {
     const isDarkMode = useColorScheme() === 'dark';
 
     const backgroundStyle = {
@@ -13,7 +13,8 @@ export default function PhonebookList({ data, removePhonebook, updatePhonebook, 
     <ScrollView 
     contentInsetAdjustmentBehavior="automatic"
     style={backgroundStyle}
-    contentContainerStyle={{paddingLeft: 10, paddingRight: 10}}>
+    contentContainerStyle={{paddingLeft: 10, paddingRight: 10, paddingBottom: 80}}
+    onScroll={handleScroll}>
       {data.map((phonebook) => (
         <PhonebookItem
           key={phonebook.id}
