@@ -5,7 +5,7 @@ import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 // import { addPhonebook } from '../actions';
 import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 
-export default function PhonebookForm({add}) {
+export default function PhonebookForm({addPhonebook, keyword, sort}) {
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");

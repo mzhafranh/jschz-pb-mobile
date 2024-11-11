@@ -252,7 +252,7 @@ function App(): React.JSX.Element {
           barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor={backgroundStyle.backgroundColor}
         />
-        <PhonebookBox phonebooks={phonebooks} page={page} totalPage={totalPage} keyword={keyword} sort={sort} removePhonebook={removePhonebook} updatePhonebook={updatePhonebook} handleFileUpload={handleFileUpload} addPhonebook={addPhonebook} handleScroll={handleScroll}/>
+        <PhonebookBox phonebooks={phonebooks} page={page} totalPage={totalPage} keyword={keyword} sort={sort} removePhonebook={removePhonebook} updatePhonebook={updatePhonebook} handleFileUpload={handleFileUpload} addPhonebook={addPhonebook} handleScroll={handleScroll} refreshPhonebookData={refreshPhonebookData} setKeyword={setKeyword}/>
       </SafeAreaView>
     );
   }

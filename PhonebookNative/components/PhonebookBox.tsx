@@ -4,7 +4,7 @@ import { ScrollView } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import PhonebookList from "./PhonebookList";
 
-export default function PhonebookBox({phonebooks, page, totalPage, keyword, sort, removePhonebook, updatePhonebook, handleFileUpload, addPhonebook, handleScroll}) {
+export default function PhonebookBox({phonebooks, page, totalPage, keyword, sort, removePhonebook, updatePhonebook, handleFileUpload, addPhonebook, handleScroll, refreshPhonebookData, setKeyword}) {
 
     const isDarkMode = useColorScheme() === 'dark';
 
@@ -17,7 +17,7 @@ export default function PhonebookBox({phonebooks, page, totalPage, keyword, sort
     return (
         <View>
             <View>
-            <PhonebookTopBar sort={sort} keyword={keyword} add={addPhonebook} />
+            <PhonebookTopBar sort={sort} keyword={keyword} add={addPhonebook} refreshPhonebookData={refreshPhonebookData} setKeyword={setKeyword} />
             </View>
             {phonebooks ? <PhonebookList data={phonebooks} removePhonebook={removePhonebook} updatePhonebook={updatePhonebook} uploadAvatar={handleFileUpload} handleScroll={handleScroll}/>  : <Text>Loading...</Text>}
         </View>
