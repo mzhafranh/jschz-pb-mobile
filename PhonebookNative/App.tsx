@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import type {PropsWithChildren} from 'react';
+import type { PropsWithChildren } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -15,7 +15,8 @@ import {
   Text,
   useColorScheme,
   View,
-  Platform
+  Platform,
+  ActivityIndicator
 } from 'react-native';
 
 import {
@@ -37,10 +38,9 @@ function App(): React.JSX.Element {
   };
   const AndroidSafeArea = {
     flex: 1,
-    paddingTop: Platform.OS === "android" ? (StatusBar.currentHeight + 16 ) : 0
+    paddingTop: Platform.OS === "android" ? (StatusBar.currentHeight + 16) : 0
   }
 
-  const [data, setData] = useState([]);
   const [phonebooks, setPhonebooks] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1)
@@ -48,25 +48,10 @@ function App(): React.JSX.Element {
   const [sort, setSort] = useState('asc')
   const [loading, setLoading] = useState(true);
 
-
-
-
   useEffect(() => {
-    fetch(`${local_url}/api/phonebooks/`)
-      .then(response => response.json())
-      .then(json => {
-        // console.log(json.pages)
-        
-        setData(json)
-        setPhonebooks(json.phonebooks)
-        // console.log(phonebooks)
-        setTotalPage(json.pages)
-        setLoading(false);  
-  })
-      .catch(error => {console.error('Error fetching data:', error)
-        setLoading(false);  
-      });
+    fetchPhonebookData('','asc',1)
   }, []);
+
 
   const fetchPhonebookData = async (keyword: string, sort: string, page: any) => {
     setKeyword(keyword)
@@ -77,7 +62,7 @@ function App(): React.JSX.Element {
     }
 
     const queryString = new URLSearchParams(params).toString();
-    try { 
+    try {
       const response = await fetch(`${local_url}/api/phonebooks?${queryString}`, {
         method: "GET",
         headers: {
@@ -91,7 +76,9 @@ function App(): React.JSX.Element {
       setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
-      setLoading(false);
+      setTimeout(() => {
+        fetchPhonebookData('','asc',1); // Retry fetching data
+      }, 5000);
     }
   };
 
@@ -104,7 +91,7 @@ function App(): React.JSX.Element {
     }
 
     const queryString = new URLSearchParams(params).toString();
-    try { 
+    try {
       const response = await fetch(`${local_url}/api/phonebooks?${queryString}`, {
         method: "GET",
         headers: {
@@ -227,8 +214,8 @@ function App(): React.JSX.Element {
     }
   };
 
-   // Fetch data when page, keyword, or sort changes
-   useEffect(() => {
+  // Fetch data when page, keyword, or sort changes
+  useEffect(() => {
     if (page > 1 && page <= totalPage) {
       fetchPhonebookData(keyword, sort, page);
     }
@@ -247,18 +234,22 @@ function App(): React.JSX.Element {
       }
     }
   };
-
-  if (!loading){
-    return (
-      <SafeAreaView style={[backgroundStyle, AndroidSafeArea]}>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={backgroundStyle.backgroundColor}
-        />
-        <PhonebookBox phonebooks={phonebooks} page={page} totalPage={totalPage} keyword={keyword} sort={sort} removePhonebook={removePhonebook} updatePhonebook={updatePhonebook} handleFileUpload={handleFileUpload} addPhonebook={addPhonebook} handleScroll={handleScroll} refreshPhonebookData={refreshPhonebookData} setKeyword={setKeyword}/>
-      </SafeAreaView>
-    );
-  }
+  return (
+    <SafeAreaView style={[backgroundStyle, AndroidSafeArea]}>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={backgroundStyle.backgroundColor}
+      />
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#CCC" />
+          <Text>Loading...</Text>
+        </View>
+      ) : (
+        <PhonebookBox phonebooks={phonebooks} page={page} totalPage={totalPage} keyword={keyword} sort={sort} removePhonebook={removePhonebook} updatePhonebook={updatePhonebook} handleFileUpload={handleFileUpload} addPhonebook={addPhonebook} handleScroll={handleScroll} refreshPhonebookData={refreshPhonebookData} />
+      )}
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -277,6 +268,11 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
