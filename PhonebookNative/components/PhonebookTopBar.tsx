@@ -5,15 +5,14 @@ import { faArrowDownZA, faMagnifyingGlass } from '@fortawesome/free-solid-svg-ic
 import { useState } from 'react';
 import PhonebookForm from './PhonebookForm';
 
-export default function PhonebookTopBar({keyword, sort, add, refreshPhonebookData, setKeyword}){
+export default function PhonebookTopBar({keyword, sort, add, refreshPhonebookData}){
     const handleSearchChange = (value) => {
-        setKeyword(value)
         refreshPhonebookData(value, sort, 1)
     };
 
     const handleSortChange = () => {
         const newSortOrder = sort === 'asc' ? 'desc' : 'asc';
-        refreshPhonebookData(keyword, newSortOrder)
+        refreshPhonebookData(keyword, newSortOrder, 1)
     };
 
   return (

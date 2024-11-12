@@ -15,7 +15,7 @@ export default function PhonebookList({ data, removePhonebook, updatePhonebook, 
     style={backgroundStyle}
     contentContainerStyle={{paddingLeft: 10, paddingRight: 10, paddingBottom: 80}}
     onScroll={handleScroll}
-    scrollEventThrottle={400}>
+    scrollEventThrottle={100}>
       {data.map((phonebook) => (
         <PhonebookItem
           key={phonebook.id}

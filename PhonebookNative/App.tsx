@@ -27,7 +27,7 @@ import { faArrowDownZA } from '@fortawesome/free-solid-svg-icons/faArrowDownZA'
 
 import PhonebookBox from './components/PhonebookBox';
 
-export const local_url = 'http://192.168.1.5:3001'
+export const local_url = 'http://192.168.1.34:3001'
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -114,6 +114,7 @@ function App(): React.JSX.Element {
       const result = await response.json();
       setPhonebooks(result.phonebooks);
       setPage(1)
+      setTotalPage(result.pages)
       setSort(sort)
       setLoading(false);
     } catch (error) {
