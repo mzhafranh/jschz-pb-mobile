@@ -16,7 +16,9 @@ import {
   useColorScheme,
   View,
   Platform,
-  ActivityIndicator
+  ActivityIndicator,
+  NativeScrollEvent,
+  NativeSyntheticEvent
 } from 'react-native';
 
 import {
@@ -30,6 +32,15 @@ import PhonebookBox from './components/PhonebookBox';
 
 export const local_url = 'http://192.168.1.34:3001'
 
+export interface Phonebook {
+   id: number;
+   name: string;
+   phone: string;
+   avatar: string | null;
+   createdAt: string;
+   updatedAt: string;
+ }
+
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -38,10 +49,10 @@ function App(): React.JSX.Element {
   };
   const AndroidSafeArea = {
     flex: 1,
-    paddingTop: Platform.OS === "android" ? (StatusBar.currentHeight + 16) : 0
+    paddingTop: Platform.OS === "android" ? ((StatusBar.currentHeight ?? 0) + 16) : 0
   }
 
-  const [phonebooks, setPhonebooks] = useState([]);
+  const [phonebooks, setPhonebooks] = useState<Phonebook[]>([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(1)
   const [keyword, setKeyword] = useState('');
@@ -49,16 +60,16 @@ function App(): React.JSX.Element {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchPhonebookData('','asc',1)
+    fetchPhonebookData('', 'asc', 1)
   }, []);
 
 
-  const fetchPhonebookData = async (keyword: string, sort: string, page: any) => {
+  const fetchPhonebookData = async (keyword: string, sort: string, page: number) => {
     setKeyword(keyword)
-    const params = {
-      keyword,
-      sort,
-      page
+    const params: Record<string, string> = {
+      keyword: keyword,
+      sort: sort,
+      page: String(page)
     }
 
     const queryString = new URLSearchParams(params).toString();
@@ -77,17 +88,17 @@ function App(): React.JSX.Element {
     } catch (error) {
       console.error('Error fetching data:', error);
       setTimeout(() => {
-        fetchPhonebookData('','asc',1); // Retry fetching data
+        fetchPhonebookData('', 'asc', 1); // Retry fetching data
       }, 5000);
     }
   };
 
-  const refreshPhonebookData = async (keyword: string, sort: string, page: any) => {
+  const refreshPhonebookData = async (keyword: string, sort: string, page: number) => {
     setKeyword(keyword)
-    const params = {
-      keyword,
-      sort,
-      page
+    const params: Record<string, string> = {
+      keyword: keyword,
+      sort: sort,
+      page: String(page)
     }
 
     const queryString = new URLSearchParams(params).toString();
@@ -110,7 +121,7 @@ function App(): React.JSX.Element {
     }
   };
 
-  const addPhonebook = async (name: any, phone: any) => {
+  const addPhonebook = async (name: string, phone: string) => {
     const newData = {
       name,
       phone
@@ -136,7 +147,7 @@ function App(): React.JSX.Element {
     }
   }
 
-  const removePhonebook = async (id: any) => {
+  const removePhonebook = async (id: number) => {
     try {
       const response = await fetch(`${local_url}/api/phonebooks/${id}`, {
         method: "DELETE",
@@ -157,7 +168,7 @@ function App(): React.JSX.Element {
     }
   }
 
-  const updatePhonebook = async (id: any, name: any, phone: any) => {
+  const updatePhonebook = async (id: number, name: string, phone: string) => {
     const updateData = {
       name,
       phone
@@ -183,7 +194,7 @@ function App(): React.JSX.Element {
     }
   }
 
-  const handleFileUpload = async (file: any, id: any) => {
+  const handleFileUpload = async (file: string, id: number) => {
 
     if (!file) {
       return;
@@ -222,7 +233,7 @@ function App(): React.JSX.Element {
   }, [page, keyword, sort]);
 
   // Handle scroll event to load more data
-  const handleScroll = (event) => {
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const contentHeight = event.nativeEvent.contentSize.height;
     const contentOffsetY = event.nativeEvent.contentOffset.y;
     const viewportHeight = event.nativeEvent.layoutMeasurement.height;

@@ -1,10 +1,25 @@
-import { StyleSheet, View, Text, useColorScheme } from "react-native";
+import { StyleSheet, View, Text, useColorScheme, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
 import PhonebookTopBar from "./PhonebookTopBar";
 import { ScrollView } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import PhonebookList from "./PhonebookList";
+import { Phonebook } from "../App";
 
-export default function PhonebookBox({phonebooks, page, totalPage, keyword, sort, removePhonebook, updatePhonebook, handleFileUpload, addPhonebook, handleScroll, refreshPhonebookData}) {
+interface PhonebookBoxProps {
+    phonebooks: Phonebook[];
+    page: number;
+    totalPage: number;
+    keyword: string;
+    sort: string;
+    removePhonebook: (id: number) => void;
+    updatePhonebook: (id: number, name: string, phone: string) => void;
+    handleFileUpload: (file: string, id: number) => void;
+    addPhonebook: (name: string, phone: string) => void;
+    handleScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+    refreshPhonebookData: (keyword: string, sort: string, page: number) => void;
+  }
+
+const PhonebookBox: React.FC<PhonebookBoxProps> = ({phonebooks, page, totalPage, keyword, sort, removePhonebook, updatePhonebook, handleFileUpload, addPhonebook, handleScroll, refreshPhonebookData}) => {
 
     const isDarkMode = useColorScheme() === 'dark';
 
@@ -26,3 +41,5 @@ export default function PhonebookBox({phonebooks, page, totalPage, keyword, sort
 
 const styles = StyleSheet.create({
 })
+
+export default PhonebookBox
