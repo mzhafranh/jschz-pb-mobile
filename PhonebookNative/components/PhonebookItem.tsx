@@ -7,7 +7,17 @@ import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { local_url } from "../App";
 import { launchImageLibrary } from "react-native-image-picker";
 
-export default function PhonebookItem({ id, avatar, name, phone, remove, update, uploadAvatar }) {
+interface PhonebookItemProps {
+    id: number;
+    name: string;
+    phone: string;
+    avatar: string | null;
+    remove: (id: number) => void;
+    update: (id: number, name: string, phone: string) => void;
+    uploadAvatar: (file: string, id: number) => void;
+  }
+
+const PhonebookItem: React.FC<PhonebookItemProps> = ({ id, avatar, name, phone, remove, update, uploadAvatar }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editableName, setEditableName] = useState(name);
     const [editablePhone, setEditablePhone] = useState(phone);
@@ -26,7 +36,7 @@ export default function PhonebookItem({ id, avatar, name, phone, remove, update,
               console.log('User cancelled image picker');
             } else if (response.errorCode) {
               console.log('ImagePicker Error: ', response.errorCode);
-            } else {
+            } else if (response.assets && response.assets[0] && response.assets[0].uri) {
               // Set the selected image's URI to the state
               const selectedImageUri = response.assets[0].uri;
               if (selectedImageUri) {
@@ -42,11 +52,11 @@ export default function PhonebookItem({ id, avatar, name, phone, remove, update,
         setIsEditing(!isEditing);
     };
 
-    const handleNameChange = (text) => {
+    const handleNameChange = (text: string) => {
         setEditableName(text);
     };
 
-    const handlePhoneChange = (text) => {
+    const handlePhoneChange = (text: string) => {
         setEditablePhone(text);
     };
 
@@ -120,3 +130,5 @@ export default function PhonebookItem({ id, avatar, name, phone, remove, update,
         </View>
     );
 }
+
+export default PhonebookItem

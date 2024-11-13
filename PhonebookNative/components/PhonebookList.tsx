@@ -1,9 +1,18 @@
 import React from "react";
-import { View, ScrollView, useColorScheme } from "react-native";
+import { View, ScrollView, useColorScheme, NativeSyntheticEvent, NativeScrollEvent } from "react-native";
 import PhonebookItem from "./PhonebookItem";
 import { Colors } from "react-native/Libraries/NewAppScreen";
+import { Phonebook } from "../App";
 
-export default function PhonebookList({ data, removePhonebook, updatePhonebook, uploadAvatar, handleScroll }) {
+interface PhonebookListProps {
+  phonebooks: Phonebook[];
+  removePhonebook: (id: number) => void;
+  updatePhonebook: (id: number, name: string, phone: string) => void;
+  uploadAvatar: (file: string, id: number) => void;
+  handleScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+}
+
+const PhonebookList: React.FC<PhonebookListProps> = ({ phonebooks, removePhonebook, updatePhonebook, uploadAvatar, handleScroll }) => {
     const isDarkMode = useColorScheme() === 'dark';
 
     const backgroundStyle = {
@@ -16,7 +25,7 @@ export default function PhonebookList({ data, removePhonebook, updatePhonebook, 
     contentContainerStyle={{paddingLeft: 10, paddingRight: 10, paddingBottom: 80}}
     onScroll={handleScroll}
     scrollEventThrottle={100}>
-      {data.map((phonebook) => (
+      {phonebooks.map((phonebook) => (
         <PhonebookItem
           key={phonebook.id}
           id={phonebook.id}
@@ -31,3 +40,5 @@ export default function PhonebookList({ data, removePhonebook, updatePhonebook, 
     </ScrollView>
   );
 }
+
+export default PhonebookList

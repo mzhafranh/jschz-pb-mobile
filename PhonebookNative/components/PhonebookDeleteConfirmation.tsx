@@ -5,7 +5,12 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 // import { removePhonebook } from '../actions';
 import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 
-export default function PhonebookDeleteConfirmation({id, removePhonebook}) {
+interface PhonebookDeleteConfirmationProps {
+    id: number;
+    removePhonebook: (id: number) => void;
+  }
+
+const PhonebookDeleteConfirmation: React.FC<PhonebookDeleteConfirmationProps> = ({id, removePhonebook}) => {
 
     const [isFormVisible, setIsFormVisible] = useState(false);
 
@@ -18,7 +23,7 @@ export default function PhonebookDeleteConfirmation({id, removePhonebook}) {
     };
 
     const handleDelete = () => {
-        removePhonebook(id, keyword, sort);
+        removePhonebook(id);
         setIsFormVisible(false);
     };
 
@@ -109,3 +114,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
 });
+
+export default PhonebookDeleteConfirmation

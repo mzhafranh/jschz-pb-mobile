@@ -32,9 +32,9 @@ const PhonebookBox: React.FC<PhonebookBoxProps> = ({phonebooks, page, totalPage,
     return (
         <View>
             <View>
-            <PhonebookTopBar sort={sort} keyword={keyword} add={addPhonebook} refreshPhonebookData={refreshPhonebookData} />
+            <PhonebookTopBar sort={sort} keyword={keyword} addPhonebook={addPhonebook} refreshPhonebookData={refreshPhonebookData} />
             </View>
-            {phonebooks ? <PhonebookList data={phonebooks} removePhonebook={removePhonebook} updatePhonebook={updatePhonebook} uploadAvatar={handleFileUpload} handleScroll={handleScroll}/>  : <Text>Loading...</Text>}
+            {phonebooks ? <PhonebookList phonebooks={phonebooks} removePhonebook={removePhonebook} updatePhonebook={updatePhonebook} uploadAvatar={handleFileUpload} handleScroll={handleScroll}/>  : <Text>Loading...</Text>}
         </View>
     )
 }

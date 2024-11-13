@@ -205,11 +205,15 @@ function App(): React.JSX.Element {
       uri: file,
       type: 'image/jpeg', // Adjust the MIME type based on your file (could be 'image/png', etc.)
       name: 'avatar.jpg', // Adjust the name based on your file's extension
-    }); // 'file' is the key used in the server
+    });
+    // console.log(formData._parts)
     try {
       const response = await fetch(`${local_url}/api/phonebooks/${id}/avatar`, {
         method: 'PUT',
         body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
       if (!response.ok) {
@@ -218,7 +222,7 @@ function App(): React.JSX.Element {
 
       const result = await response.json();
 
-      refreshPhonebookData(keyword, 'asc', 1)
+      await refreshPhonebookData(keyword, 'asc', 1)
       console.log('File uploaded successfully:', result);
     } catch (error) {
       console.error('Error uploading file:', error);
