@@ -23,11 +23,10 @@ const PhonebookForm: React.FC<PhonebookFormProps> = ({addPhonebook, keyword, sor
 
     const handleSubmit = () => {
         addPhonebook(name, phone);
-
         console.log("Form Submitted", { name, phone });
-
         setName("");
         setPhone("");
+        navigation.navigate('Home')
     };
 
     return (

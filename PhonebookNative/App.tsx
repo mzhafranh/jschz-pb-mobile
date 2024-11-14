@@ -25,9 +25,10 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import PhonebookBox from './components/PhonebookBox';
 import HomeScreen from './screens/HomeScreen';
 import FormScreen from './screens/FormScreen';
+import { Provider } from 'react-redux';
+import store from './store';
 
 export const local_url = 'http://192.168.1.34:3001'
 
@@ -244,6 +245,7 @@ function App(): React.JSX.Element {
   };
 
   return (
+    <Provider store={store}>
     <NavigationContainer>
       <SafeAreaView style={[backgroundStyle, AndroidSafeArea]}>
         <StatusBar
@@ -260,7 +262,7 @@ function App(): React.JSX.Element {
             <Stack.Screen
               name="Home"
               component={HomeScreen}
-              options={{ headerShown: false }}
+              options={{ headerShown: false, animation:"none" }}
               initialParams={{
                 phonebooks: phonebooks,
                 page: page,
@@ -279,6 +281,7 @@ function App(): React.JSX.Element {
         )}
       </SafeAreaView>
     </NavigationContainer>
+    </Provider>
   );
 }
 
