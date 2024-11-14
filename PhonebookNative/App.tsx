@@ -21,14 +21,13 @@ import {
   NativeSyntheticEvent
 } from 'react-native';
 
-import {
-  Colors
-} from 'react-native/Libraries/NewAppScreen';
-
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faArrowDownZA } from '@fortawesome/free-solid-svg-icons/faArrowDownZA'
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import PhonebookBox from './components/PhonebookBox';
+import HomeScreen from './screens/HomeScreen';
+import FormScreen from './screens/FormScreen';
 
 export const local_url = 'http://192.168.1.34:3001'
 
@@ -40,6 +39,8 @@ export interface Phonebook {
   createdAt: string;
   updatedAt: string;
 }
+
+const Stack = createStackNavigator();
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -199,12 +200,11 @@ function App(): React.JSX.Element {
     if (!file) {
       return;
     }
-    // Create FormData object and append the file
     const formData = new FormData();
     formData.append('avatar', {
       uri: file,
-      type: 'image/jpeg', // Adjust the MIME type based on your file (could be 'image/png', etc.)
-      name: 'avatar.jpg', // Adjust the name based on your file's extension
+      type: 'image/jpeg',
+      name: 'avatar.jpg',
     });
     // console.log(formData._parts)
     try {
@@ -242,22 +242,43 @@ function App(): React.JSX.Element {
       setPage(prevPage => prevPage + 1);
     }
   };
-  
+
   return (
-    <SafeAreaView style={[backgroundStyle, AndroidSafeArea]}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      {loading ? (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#CCC" />
-          <Text>Loading...</Text>
-        </View>
-      ) : (
-        <PhonebookBox phonebooks={phonebooks} page={page} totalPage={totalPage} keyword={keyword} sort={sort} removePhonebook={removePhonebook} updatePhonebook={updatePhonebook} handleFileUpload={handleFileUpload} addPhonebook={addPhonebook} handleScroll={handleScroll} refreshPhonebookData={refreshPhonebookData} />
-      )}
-    </SafeAreaView>
+    <NavigationContainer>
+      <SafeAreaView style={[backgroundStyle, AndroidSafeArea]}>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        {loading ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#CCC" />
+            <Text>Loading...</Text>
+          </View>
+        ) : (
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{ headerShown: false }}
+              initialParams={{
+                phonebooks: phonebooks,
+                page: page,
+                totalPage: totalPage,
+                keyword: keyword,
+                sort: sort,
+                removePhonebook: removePhonebook,
+                updatePhonebook: updatePhonebook,
+                handleFileUpload: handleFileUpload,
+                addPhonebook: addPhonebook,
+                handleScroll: handleScroll,
+                refreshPhonebookData: refreshPhonebookData
+              }} />
+            <Stack.Screen name="Form" component={FormScreen} options={{ headerShown: false }}/>
+          </Stack.Navigator>
+        )}
+      </SafeAreaView>
+    </NavigationContainer>
   );
 }
 

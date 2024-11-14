@@ -1,9 +1,11 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowDownZA, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDownZA, faMagnifyingGlass, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import PhonebookForm from './PhonebookForm';
+import { useNavigation } from '@react-navigation/native';
+import FormScreen from '../screens/FormScreen';
 
 interface PhonebookTopBarProps {
   keyword: string;
@@ -12,15 +14,21 @@ interface PhonebookTopBarProps {
   refreshPhonebookData: (keyword: string, sort: string, page: number) => void;
 }
 
-const PhonebookTopBar: React.FC<PhonebookTopBarProps> = ({keyword, sort, addPhonebook, refreshPhonebookData}) => {
-    const handleSearchChange = (value: string) => {
-        refreshPhonebookData(value, sort, 1)
-    };
+const PhonebookTopBar: React.FC<PhonebookTopBarProps> = ({ keyword, sort, addPhonebook, refreshPhonebookData }) => {
+  const navigation = useNavigation()
 
-    const handleSortChange = () => {
-        const newSortOrder = sort === 'asc' ? 'desc' : 'asc';
-        refreshPhonebookData(keyword, newSortOrder, 1)
-    };
+  const handleSearchChange = (value: string) => {
+    refreshPhonebookData(value, sort, 1)
+  };
+
+  const handleSortChange = () => {
+    const newSortOrder = sort === 'asc' ? 'desc' : 'asc';
+    refreshPhonebookData(keyword, newSortOrder, 1)
+  };
+
+  const goToFormScreen = () => {
+    navigation.navigate('Form', {addPhonebook, keyword, sort})
+  }
 
   return (
     <View style={styles.topBar} accessibilityLabel="PhonebookTopBar">
@@ -39,7 +47,9 @@ const PhonebookTopBar: React.FC<PhonebookTopBarProps> = ({keyword, sort, addPhon
         />
       </View>
       <View style={styles.formContainer}>
-        <PhonebookForm addPhonebook={addPhonebook} keyword={keyword} sort={sort}/>
+        <TouchableOpacity onPress={goToFormScreen} style={styles.addButton}>
+          <FontAwesomeIcon icon={faUserPlus} size={20} color="black" />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -51,7 +61,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom:10
+    marginBottom: 10
   },
   buttonContainer: {
     marginRight: 8,
@@ -81,6 +91,13 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     marginLeft: 8,
+  },
+  addButton: {
+    padding: 10,
+    backgroundColor: '#AF8210',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

@@ -4,6 +4,7 @@ import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { addPhonebook } from '../actions';
 import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 interface PhonebookFormProps {
     addPhonebook: (name:string, phone:string) => void;
@@ -12,16 +13,12 @@ interface PhonebookFormProps {
 }
 
 const PhonebookForm: React.FC<PhonebookFormProps> = ({addPhonebook, keyword, sort}) => {
-    const [isFormVisible, setIsFormVisible] = useState(false);
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
-
-    const handleOpenForm = () => {
-        setIsFormVisible(true);
-    };
+    const navigation = useNavigation();
 
     const handleCloseForm = () => {
-        setIsFormVisible(false);
+        navigation.navigate('Home')
     };
 
     const handleSubmit = () => {
@@ -31,21 +28,13 @@ const PhonebookForm: React.FC<PhonebookFormProps> = ({addPhonebook, keyword, sor
 
         setName("");
         setPhone("");
-        setIsFormVisible(false);
     };
 
     return (
         <View aria-label="PhonebookForm">
-            {/* Button to show the form */}
-            <TouchableOpacity onPress={handleOpenForm} style={styles.addButton}>
-                <FontAwesomeIcon icon={faUserPlus} size={20} color="black" />
-            </TouchableOpacity>
-
             {/* Fullscreen form modal */}
             <Modal
-                transparent={true}
                 animationType="fade"
-                visible={isFormVisible}
                 onRequestClose={handleCloseForm}
             >
                 <View style={styles.modalOverlay}>
@@ -95,7 +84,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.8)', // Semi-transparent background
         position: 'absolute',
         top: 0,
         left: 0,
