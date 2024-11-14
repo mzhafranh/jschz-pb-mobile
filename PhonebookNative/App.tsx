@@ -33,13 +33,13 @@ import PhonebookBox from './components/PhonebookBox';
 export const local_url = 'http://192.168.1.34:3001'
 
 export interface Phonebook {
-   id: number;
-   name: string;
-   phone: string;
-   avatar: string | null;
-   createdAt: string;
-   updatedAt: string;
- }
+  id: number;
+  name: string;
+  phone: string;
+  avatar: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -237,18 +237,12 @@ function App(): React.JSX.Element {
   }, [page, keyword, sort]);
 
   // Handle scroll event to load more data
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const contentHeight = event.nativeEvent.contentSize.height;
-    const contentOffsetY = event.nativeEvent.contentOffset.y;
-    const viewportHeight = event.nativeEvent.layoutMeasurement.height;
-
-    if (contentOffsetY + viewportHeight >= contentHeight - 200 && !loading) {
-      // Trigger the next page fetch when near the bottom
-      if (page < totalPage) {
-        setPage(prevPage => prevPage + 1);
-      }
+  const handleScroll = () => {
+    if (page < totalPage) {
+      setPage(prevPage => prevPage + 1);
     }
   };
+  
   return (
     <SafeAreaView style={[backgroundStyle, AndroidSafeArea]}>
       <StatusBar
