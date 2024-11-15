@@ -6,24 +6,30 @@ import { useState } from 'react';
 import PhonebookForm from './PhonebookForm';
 import { useNavigation } from '@react-navigation/native';
 import FormScreen from '../screens/FormScreen';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from "../store";
+import { refreshPhonebookData } from '../slices/phonebookSlice';
 
-interface PhonebookTopBarProps {
-  keyword: string;
-  sort: string;
-  addPhonebook: (name: string, phone: string) => void;
-  refreshPhonebookData: (keyword: string, sort: string, page: number) => void;
-}
 
-const PhonebookTopBar: React.FC<PhonebookTopBarProps> = ({ keyword, sort, addPhonebook, refreshPhonebookData }) => {
+// interface PhonebookTopBarProps {
+//   keyword: string;
+//   sort: string;
+//   addPhonebook: (name: string, phone: string) => void;
+//   refreshPhonebookData: (keyword: string, sort: string, page: number) => void;
+// }
+
+const PhonebookTopBar = () => {
   const navigation = useNavigation()
+  const {keyword, sort} = useSelector((state: RootState) => state.phonebookReducer);
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleSearchChange = (value: string) => {
-    refreshPhonebookData(value, sort, 1)
+    dispatch(refreshPhonebookData({value, sort, 1}))
   };
 
   const handleSortChange = () => {
     const newSortOrder = sort === 'asc' ? 'desc' : 'asc';
-    refreshPhonebookData(keyword, newSortOrder, 1)
+    dispatch(refreshPhonebookData({keyword, newSortOrder, 1}))
   };
 
   const goToFormScreen = () => {
