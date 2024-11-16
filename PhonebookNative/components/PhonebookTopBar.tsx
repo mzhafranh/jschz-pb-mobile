@@ -24,12 +24,12 @@ const PhonebookTopBar = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleSearchChange = (value: string) => {
-    dispatch(refreshPhonebookData({value, sort, 1}))
+    dispatch(refreshPhonebookData({keyword:value, sort, page:1}))
   };
 
   const handleSortChange = () => {
     const newSortOrder = sort === 'asc' ? 'desc' : 'asc';
-    dispatch(refreshPhonebookData({keyword, newSortOrder, 1}))
+    dispatch(refreshPhonebookData({keyword, sort:newSortOrder, page:1}))
   };
 
   const goToFormScreen = () => {
