@@ -2,7 +2,7 @@ import React from 'react';
 import { View} from 'react-native';
 import PhonebookForm from '../components/PhonebookForm';
 
-function FormScreen({route}) {
+function FormScreen({}) {
     return(
         <View>
             <PhonebookForm/>

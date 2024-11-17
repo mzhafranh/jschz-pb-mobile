@@ -70,6 +70,7 @@ export const fetchPhonebookData = createAsyncThunk(
 
     const result = await response.json();
     dispatch(setSort(sort));
+    dispatch(setKeyword(keyword))
     dispatch(setTotalPage(result.pages));
     return result.phonebooks;
   }
@@ -92,6 +93,7 @@ export const refreshPhonebookData = createAsyncThunk(
     const result = await response.json();
     dispatch(setPage(1));
     dispatch(setSort(sort));
+    dispatch(setTotalPage(result.pages));
     return result.phonebooks;
   }
 );
@@ -184,6 +186,8 @@ const phonebookSlice = createSlice({
     setSort: (state, action) => { state.sort = action.payload; },
     setKeyword: (state, action) => { state.keyword = action.payload; },
     setTotalPage: (state, action) => { state.totalPage = action.payload; },
+    setLoading: (state, action) => { state.loading = action.payload; },
+    clearPhonebook: (state) => {state.phonebooks = []}
   },
   extraReducers: (builder) => {
     builder
@@ -212,5 +216,5 @@ const phonebookSlice = createSlice({
   },
 });
 
-export const { setPage, setSort, setKeyword, setTotalPage } = phonebookSlice.actions;
+export const { setPage, setSort, setKeyword, setTotalPage, setLoading, clearPhonebook} = phonebookSlice.actions;
 export default phonebookSlice.reducer;

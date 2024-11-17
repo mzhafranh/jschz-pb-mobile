@@ -23,7 +23,7 @@ import {
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp  } from '@react-navigation/stack';
 
 import HomeScreen from './screens/HomeScreen';
 import FormScreen from './screens/FormScreen';
@@ -32,16 +32,12 @@ import store, { AppDispatch, RootState } from './store';
 
 export const local_url = 'http://192.168.1.5:3001'
 
-export interface Phonebook {
-  id: number;
-  name: string;
-  phone: string;
-  avatar: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
+export type RootStackParamList = {
+  Home: undefined;
+  Form: undefined;
+};
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';

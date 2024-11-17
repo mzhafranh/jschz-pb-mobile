@@ -4,7 +4,7 @@ import PhonebookBox from '../components/PhonebookBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 
-function HomeScreen({route}) {
+function HomeScreen({}) {
     return(
         <View>
               <PhonebookBox/>

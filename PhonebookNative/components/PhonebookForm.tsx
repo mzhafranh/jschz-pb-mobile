@@ -7,20 +7,19 @@ import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'reac
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
-import { addPhonebook } from '../slices/phonebookSlice';
+import { addPhonebook, refreshPhonebookData } from '../slices/phonebookSlice';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../App';
 
-// interface PhonebookFormProps {
-//     addPhonebook: (name:string, phone:string) => void;
-//     keyword: string;
-//     sort: string;
-// }
+type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 const PhonebookForm = () => {
     const { keyword, sort} = useSelector((state: RootState) => state.phonebookReducer);
     const dispatch = useDispatch<AppDispatch>();
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
-    const navigation = useNavigation();
+    const navigation = useNavigation<HomeScreenNavigationProp>();
+
 
     const handleCloseForm = () => {
         navigation.navigate('Home')

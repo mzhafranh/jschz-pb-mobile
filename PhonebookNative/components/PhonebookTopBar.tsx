@@ -8,22 +8,19 @@ import { useNavigation } from '@react-navigation/native';
 import FormScreen from '../screens/FormScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from "../store";
-import { refreshPhonebookData } from '../slices/phonebookSlice';
+import { clearPhonebook, refreshPhonebookData, setKeyword } from '../slices/phonebookSlice';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../App';
 
-
-// interface PhonebookTopBarProps {
-//   keyword: string;
-//   sort: string;
-//   addPhonebook: (name: string, phone: string) => void;
-//   refreshPhonebookData: (keyword: string, sort: string, page: number) => void;
-// }
+type FormScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Form'>;
 
 const PhonebookTopBar = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation<FormScreenNavigationProp>();
   const {keyword, sort} = useSelector((state: RootState) => state.phonebookReducer);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleSearchChange = (value: string) => {
+    dispatch(setKeyword(value))
     dispatch(refreshPhonebookData({keyword:value, sort, page:1}))
   };
 
@@ -33,6 +30,7 @@ const PhonebookTopBar = () => {
   };
 
   const goToFormScreen = () => {
+    dispatch(clearPhonebook())
     navigation.navigate('Form')
   }
 
