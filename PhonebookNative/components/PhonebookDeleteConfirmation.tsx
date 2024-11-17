@@ -3,14 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { removePhonebook } from '../actions';
-import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, StyleSheet, Keyboard } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store';
+import { removePhonebook } from '../slices/phonebookSlice';
 
 interface PhonebookDeleteConfirmationProps {
     id: number;
-    removePhonebook: (id: number) => void;
   }
 
-const PhonebookDeleteConfirmation: React.FC<PhonebookDeleteConfirmationProps> = ({id, removePhonebook}) => {
+const PhonebookDeleteConfirmation: React.FC<PhonebookDeleteConfirmationProps> = ({id}) => {
+    const { keyword, sort} = useSelector((state: RootState) => state.phonebookReducer);
+    const dispatch = useDispatch<AppDispatch>();
 
     const [isFormVisible, setIsFormVisible] = useState(false);
 
@@ -23,7 +27,7 @@ const PhonebookDeleteConfirmation: React.FC<PhonebookDeleteConfirmationProps> = 
     };
 
     const handleDelete = () => {
-        removePhonebook(id);
+        dispatch(removePhonebook({id, keyword, sort}));
         setIsFormVisible(false);
     };
 

@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import PhonebookBox from '../components/PhonebookBox';
 
 const local_url = 'http://192.168.1.5:3001'
 

@@ -5,14 +5,19 @@ import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 // import { addPhonebook } from '../actions';
 import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store';
+import { addPhonebook } from '../slices/phonebookSlice';
 
-interface PhonebookFormProps {
-    addPhonebook: (name:string, phone:string) => void;
-    keyword: string;
-    sort: string;
-}
+// interface PhonebookFormProps {
+//     addPhonebook: (name:string, phone:string) => void;
+//     keyword: string;
+//     sort: string;
+// }
 
-const PhonebookForm: React.FC<PhonebookFormProps> = ({addPhonebook, keyword, sort}) => {
+const PhonebookForm = () => {
+    const { keyword, sort} = useSelector((state: RootState) => state.phonebookReducer);
+    const dispatch = useDispatch<AppDispatch>();
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const navigation = useNavigation();
@@ -22,7 +27,7 @@ const PhonebookForm: React.FC<PhonebookFormProps> = ({addPhonebook, keyword, sor
     };
 
     const handleSubmit = () => {
-        addPhonebook(name, phone);
+        dispatch(addPhonebook({name, phone, keyword, sort}));
         console.log("Form Submitted", { name, phone });
         setName("");
         setPhone("");

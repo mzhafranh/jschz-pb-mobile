@@ -6,22 +6,25 @@ import PhonebookDeleteConfirmation from "./PhonebookDeleteConfirmation";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { local_url } from "../App";
 import { launchImageLibrary } from "react-native-image-picker";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store";
+import { handleFileUpload, updatePhonebook } from "../slices/phonebookSlice";
 
 interface PhonebookItemProps {
     id: number;
     name: string;
     phone: string;
     avatar: string | null;
-    remove: (id: number) => void;
-    update: (id: number, name: string, phone: string) => void;
-    uploadAvatar: (file: string, id: number) => void;
   }
 
-const PhonebookItem: React.FC<PhonebookItemProps> = ({ id, avatar, name, phone, remove, update, uploadAvatar }) => {
+const PhonebookItem: React.FC<PhonebookItemProps> = ({ id, avatar, name, phone}) => {
+    const { keyword, sort} = useSelector((state: RootState) => state.phonebookReducer);
+    const dispatch = useDispatch<AppDispatch>();
+
     const [isEditing, setIsEditing] = useState(false);
     const [editableName, setEditableName] = useState(name);
     const [editablePhone, setEditablePhone] = useState(phone);
-    const fileInputRef = useRef(null);
+    // const fileInputRef = useRef(null);
 
     const handlePickImage = () => {
         launchImageLibrary(
@@ -40,7 +43,7 @@ const PhonebookItem: React.FC<PhonebookItemProps> = ({ id, avatar, name, phone, 
               // Set the selected image's URI to the state
               const selectedImageUri = response.assets[0].uri;
               if (selectedImageUri) {
-                uploadAvatar(selectedImageUri, id);
+                dispatch(handleFileUpload({file:selectedImageUri, id, keyword, sort}));
                 console.log('Image uploaded successfully:', selectedImageUri);
               }
             }
@@ -61,7 +64,7 @@ const PhonebookItem: React.FC<PhonebookItemProps> = ({ id, avatar, name, phone, 
     };
 
     const handleSave = () => {
-        update(id, editableName, editablePhone);
+        dispatch(updatePhonebook({id, name:editableName, phone:editablePhone}));
         setIsEditing(false);
     };
 
@@ -120,7 +123,7 @@ const PhonebookItem: React.FC<PhonebookItemProps> = ({ id, avatar, name, phone, 
                                     <TouchableOpacity onPress={handleEditClick} style={{ marginTop: 5, marginRight: 5 }}>
                                         <FontAwesomeIcon icon={faPenToSquare} size={20} />
                                     </TouchableOpacity>
-                                    <PhonebookDeleteConfirmation id={id} removePhonebook={remove} />
+                                    <PhonebookDeleteConfirmation id={id} />
                                 </View>
                             </>
                         )}

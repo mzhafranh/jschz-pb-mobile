@@ -33,7 +33,7 @@ const PhonebookTopBar = () => {
   };
 
   const goToFormScreen = () => {
-    navigation.navigate('Form', {addPhonebook, keyword, sort})
+    navigation.navigate('Form')
   }
 
   return (

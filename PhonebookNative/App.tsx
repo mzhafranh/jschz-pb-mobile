@@ -27,10 +27,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeScreen from './screens/HomeScreen';
 import FormScreen from './screens/FormScreen';
-import { Provider } from 'react-redux';
-import store from './store';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import store, { AppDispatch, RootState } from './store';
 
-export const local_url = 'http://192.168.1.34:3001'
+export const local_url = 'http://192.168.1.5:3001'
 
 export interface Phonebook {
   id: number;
@@ -54,18 +54,7 @@ function App(): React.JSX.Element {
     paddingTop: Platform.OS === "android" ? ((StatusBar.currentHeight ?? 0) + 16) : 0
   }
 
-  const [phonebooks, setPhonebooks] = useState<Phonebook[]>([]);
-  const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(1)
-  const [keyword, setKeyword] = useState('');
-  const [sort, setSort] = useState('asc')
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchPhonebookData('', 'asc', 1)
-  }, []);
-
-
+  /*
   const fetchPhonebookData = async (keyword: string, sort: string, page: number) => {
     setKeyword(keyword)
     const params: Record<string, string> = {
@@ -244,69 +233,24 @@ function App(): React.JSX.Element {
     }
   };
 
+  */
+
   return (
     <Provider store={store}>
-    <NavigationContainer>
-      <SafeAreaView style={[backgroundStyle, AndroidSafeArea]}>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={backgroundStyle.backgroundColor}
-        />
-        {loading ? (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#CCC" />
-            <Text>Loading...</Text>
-          </View>
-        ) : (
+      <NavigationContainer>
+        <SafeAreaView style={[backgroundStyle, AndroidSafeArea]}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={backgroundStyle.backgroundColor}
+          />
           <Stack.Navigator>
-            <Stack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={{ headerShown: false, animation:"none" }}
-              initialParams={{
-                phonebooks: phonebooks,
-                page: page,
-                totalPage: totalPage,
-                keyword: keyword,
-                sort: sort,
-                removePhonebook: removePhonebook,
-                updatePhonebook: updatePhonebook,
-                handleFileUpload: handleFileUpload,
-                addPhonebook: addPhonebook,
-                handleScroll: handleScroll,
-                refreshPhonebookData: refreshPhonebookData
-              }} />
-            <Stack.Screen name="Form" component={FormScreen} options={{ headerShown: false }}/>
-          </Stack.Navigator>
-        )}
-      </SafeAreaView>
-    </NavigationContainer>
+              <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false, animation: "none" }} />
+              <Stack.Screen name="Form" component={FormScreen} options={{ headerShown: false, animation: "none" }} />
+            </Stack.Navigator>
+        </SafeAreaView>
+      </NavigationContainer>
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default App;

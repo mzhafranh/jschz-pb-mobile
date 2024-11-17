@@ -28,14 +28,14 @@ const PhonebookBox = () => {
 
   useEffect(() => {
     dispatch(fetchPhonebookData({ keyword: '', sort: 'asc', page: 1 }));
-  }, []);
+  }, [dispatch]);
     
     return (
         <>
             <View>
-            <PhonebookTopBar sort={sort} keyword={keyword} addPhonebook={addPhonebook} refreshPhonebookData={refreshPhonebookData} />
+              <PhonebookTopBar/>
             </View>
-            {phonebooks ? <PhonebookList phonebooks={phonebooks} removePhonebook={removePhonebook} updatePhonebook={updatePhonebook} uploadAvatar={handleFileUpload} handleScroll={handleScroll}/>  : <Text>Loading...</Text>}
+            {phonebooks ? <PhonebookList/>  : <Text>Loading...</Text>}
         </>
     )
 }

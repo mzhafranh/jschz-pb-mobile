@@ -1,14 +1,23 @@
 import React from 'react';
-import { View} from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import PhonebookBox from '../components/PhonebookBox';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store';
 
 function HomeScreen({route}) {
-    const {phonebooks, page, totalPage, keyword, sort, removePhonebook, updatePhonebook, handleFileUpload, addPhonebook, handleScroll, refreshPhonebookData} = route.params
     return(
         <View>
-            <PhonebookBox phonebooks={phonebooks} page={page} totalPage={totalPage} keyword={keyword} sort={sort} removePhonebook={removePhonebook} updatePhonebook={updatePhonebook} handleFileUpload={handleFileUpload} addPhonebook={addPhonebook} handleScroll={handleScroll} refreshPhonebookData={refreshPhonebookData} />
+              <PhonebookBox/>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+  });
 
 export default HomeScreen
