@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowDownZA, faMagnifyingGlass, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDownAZ, faArrowDownZA, faMagnifyingGlass, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import PhonebookForm from './PhonebookForm';
 import { useNavigation } from '@react-navigation/native';
@@ -39,7 +39,7 @@ const PhonebookTopBar = () => {
     <View style={styles.topBar} accessibilityLabel="PhonebookTopBar">
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleSortChange} accessibilityLabel="sort" style={styles.sortButton}>
-          <FontAwesomeIcon icon={faArrowDownZA} size={20} />
+          {sort === 'asc' ? <FontAwesomeIcon icon={faArrowDownAZ} size={20}/> : <FontAwesomeIcon icon={faArrowDownZA} size={20}/>}
         </TouchableOpacity>
       </View>
       <View style={styles.searchContainer} accessibilityLabel="search">
