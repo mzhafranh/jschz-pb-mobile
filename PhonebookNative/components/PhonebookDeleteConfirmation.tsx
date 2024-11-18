@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { removePhonebook } from '../actions';
-import { View, Text, TouchableOpacity, Modal, StyleSheet, Keyboard } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { removePhonebook } from '../slices/phonebookSlice';
@@ -33,12 +31,10 @@ const PhonebookDeleteConfirmation: React.FC<PhonebookDeleteConfirmationProps> = 
 
     return (
         <>
-            {/* Button to open the confirmation modal */}
             <TouchableOpacity onPress={handleOpenConfirmation} style={{ marginTop: 5 }}>
                 <FontAwesomeIcon icon={faTrashCan} size={20}/>
             </TouchableOpacity>
 
-            {/* Fullscreen modal */}
             <Modal
                 transparent={true}
                 animationType="fade"

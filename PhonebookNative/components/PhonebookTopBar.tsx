@@ -1,11 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowDownAZ, faArrowDownZA, faMagnifyingGlass, faUserPlus } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
-import PhonebookForm from './PhonebookForm';
 import { useNavigation } from '@react-navigation/native';
-import FormScreen from '../screens/FormScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from "../store";
 import { clearPhonebook, refreshPhonebookData, setKeyword } from '../slices/phonebookSlice';

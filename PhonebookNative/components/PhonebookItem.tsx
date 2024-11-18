@@ -3,7 +3,6 @@ import { View, Text, TextInput, Button, Image, TouchableOpacity, Alert } from "r
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUserTie, faPenToSquare, faTrashCan, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 import PhonebookDeleteConfirmation from "./PhonebookDeleteConfirmation";
-import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { local_url } from "../App";
 import { launchImageLibrary } from "react-native-image-picker";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,7 +23,7 @@ const PhonebookItem: React.FC<PhonebookItemProps> = ({ id, avatar, name, phone})
     const [isEditing, setIsEditing] = useState(false);
     const [editableName, setEditableName] = useState(name);
     const [editablePhone, setEditablePhone] = useState(phone);
-    // const fileInputRef = useRef(null);
+
 
     const handlePickImage = () => {
         launchImageLibrary(

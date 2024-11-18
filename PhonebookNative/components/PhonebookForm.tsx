@@ -7,7 +7,7 @@ import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'reac
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
-import { addPhonebook, refreshPhonebookData } from '../slices/phonebookSlice';
+import { addPhonebook } from '../slices/phonebookSlice';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 
@@ -35,7 +35,6 @@ const PhonebookForm = () => {
 
     return (
         <View aria-label="PhonebookForm">
-            {/* Fullscreen form modal */}
             <Modal
                 animationType="fade"
                 onRequestClose={handleCloseForm}

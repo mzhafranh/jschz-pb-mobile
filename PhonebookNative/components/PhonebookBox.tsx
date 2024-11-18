@@ -4,7 +4,7 @@ import PhonebookList from "./PhonebookList";
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from "react"
-import { fetchPhonebookData, refreshPhonebookData, setPage } from "../slices/phonebookSlice";
+import { refreshPhonebookData } from "../slices/phonebookSlice";
 import { RootState, AppDispatch } from "../store";
 
 const PhonebookBox = () => {
