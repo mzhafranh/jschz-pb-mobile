@@ -8,6 +8,7 @@ import { fetchPhonebookData, refreshPhonebookData, setLoading, setPage } from ".
 import { useNavigation } from "@react-navigation/native";
 
 const PhonebookList = () => {
+  console.log('PbList Rendered')
   const {phonebooks, page, keyword, sort, totalPage} = useSelector((state: RootState) => state.phonebookReducer);
   const dispatch = useDispatch<AppDispatch>();
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -28,7 +29,7 @@ const PhonebookList = () => {
 
   // Fetch data when page, keyword, or sort changes
   useEffect(() => {
-    console.log('sampai fetch scroll', isFetching)
+    console.log('Fetch scroll', isFetching)
     if (page > 1 && page <= totalPage && hasScrolled && isFetching) {
       dispatch(fetchPhonebookData({keyword, sort, page}))
       .finally(() => setIsFetching(false));
@@ -44,14 +45,16 @@ const PhonebookList = () => {
       setIsFetching(false)
       setHasScrolled(false); // Reset scrolling state on screen focus
     });
-    return unsubscribe;
-  }, [navigation]);
+    return () => {
+      console.log('Cleaning up listener');
+      unsubscribe();
+    };
+  }, []);
 
   // Handle scroll event to load more data
   const handleScroll = () => {
     if (page < totalPage && hasScrolled && !isFetching) {
-      console.log('sampai scroll')
-      console.log(page, totalPage)
+      console.log('Scroll true', page, totalPage)
       setIsFetching(true)
       dispatch(setPage(page + 1));
     }

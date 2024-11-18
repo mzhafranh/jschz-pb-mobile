@@ -15,6 +15,7 @@ import { RootStackParamList } from '../App';
 type FormScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Form'>;
 
 const PhonebookTopBar = () => {
+  console.log('PbTopBar Rendered')
   const navigation = useNavigation<FormScreenNavigationProp>();
   const {keyword, sort} = useSelector((state: RootState) => state.phonebookReducer);
   const dispatch = useDispatch<AppDispatch>();
@@ -31,7 +32,7 @@ const PhonebookTopBar = () => {
 
   const goToFormScreen = () => {
     dispatch(clearPhonebook())
-    navigation.navigate('Form')
+    navigation.replace('Form');
   }
 
   return (

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 
 function HomeScreen({}) {
+  console.log("HomeScreen Rendered");
     return(
         <View>
               <PhonebookBox/>

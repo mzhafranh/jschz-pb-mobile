@@ -22,7 +22,7 @@ const PhonebookForm = () => {
 
 
     const handleCloseForm = () => {
-        navigation.navigate('Home')
+        navigation.replace('Home');
     };
 
     const handleSubmit = () => {
@@ -30,7 +30,7 @@ const PhonebookForm = () => {
         console.log("Form Submitted", { name, phone });
         setName("");
         setPhone("");
-        navigation.navigate('Home')
+        navigation.replace('Home');
     };
 
     return (

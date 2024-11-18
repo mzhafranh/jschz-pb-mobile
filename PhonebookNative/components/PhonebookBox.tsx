@@ -9,11 +9,15 @@ import { RootState, AppDispatch } from "../store";
 
 const PhonebookBox = () => {
   const { phonebooks, keyword, sort } = useSelector((state: RootState) => state.phonebookReducer);
+  
   const dispatch = useDispatch<AppDispatch>();
+  console.log('PbBox Rendered')
 
   useEffect(() => {
-    console.log('fetch dri box')
-    dispatch(refreshPhonebookData({ keyword, sort, page: 1 }));
+    if (!phonebooks.length) {
+      console.log('fetch in PbBox');
+      dispatch(refreshPhonebookData({ keyword, sort, page: 1 }));
+    }
   }, []);
     
     return (

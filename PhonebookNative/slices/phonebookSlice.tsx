@@ -57,6 +57,7 @@ interface PhonebookState {
 export const fetchPhonebookData = createAsyncThunk(
   'phonebook/fetchPhonebookData',
   async ({ keyword, sort, page }: FetchPhonebookParams, { dispatch }) => {
+    console.log('[fetchPhonebookData] called')
     const params = new URLSearchParams({
       keyword,
       sort,
@@ -79,6 +80,7 @@ export const fetchPhonebookData = createAsyncThunk(
 export const refreshPhonebookData = createAsyncThunk(
   'phonebook/refreshPhonebookData',
   async ({ keyword, sort, page }: FetchPhonebookParams, { dispatch }) => {
+    console.log('[refreshPhonebookData] called')
     const params = new URLSearchParams({
       keyword,
       sort,
@@ -184,7 +186,7 @@ const phonebookSlice = createSlice({
   reducers: {
     setPage: (state, action) => { state.page = action.payload; },
     setSort: (state, action) => { state.sort = action.payload; },
-    setKeyword: (state, action) => { state.keyword = action.payload; },
+    setKeyword: (state, action) => { state.keyword = action.payload;  },
     setTotalPage: (state, action) => { state.totalPage = action.payload; },
     setLoading: (state, action) => { state.loading = action.payload; },
     clearPhonebook: (state) => {state.phonebooks = []}
