@@ -59,6 +59,7 @@ const PhonebookTopBar = () => {
 
 const styles = StyleSheet.create({
   topBar: {
+    paddingTop: 10,
     paddingLeft: 10,
     paddingRight: 10,
     flexDirection: 'row',
