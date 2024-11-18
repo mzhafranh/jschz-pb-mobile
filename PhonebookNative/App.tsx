@@ -39,17 +39,13 @@ function App(): React.JSX.Element {
   };
   const AndroidSafeArea = {
     flex: 1,
-    paddingTop: Platform.OS === "android" ? ((StatusBar.currentHeight ?? 0) + 16) : 0
+    paddingTop: Platform.OS === "android" ? ((StatusBar.currentHeight ?? 16) ) : 0
   }
 
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <SafeAreaView style={[backgroundStyle, AndroidSafeArea]}>
-          <StatusBar
-            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            backgroundColor={backgroundStyle.backgroundColor}
-          />
+        <SafeAreaView>
           <Stack.Navigator>
               <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false, animation: "none" }} />
               <Stack.Screen name="Form" component={FormScreen} options={{ headerShown: false, animation: "none" }} />

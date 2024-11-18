@@ -3,18 +3,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 // import { useSelector, useDispatch } from 'react-redux';
 // import { addPhonebook } from '../actions';
-import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet, useColorScheme } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { addPhonebook } from '../slices/phonebookSlice';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
-
 type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 const PhonebookForm = () => {
-    const { keyword, sort} = useSelector((state: RootState) => state.phonebookReducer);
+    const { keyword, sort } = useSelector((state: RootState) => state.phonebookReducer);
     const dispatch = useDispatch<AppDispatch>();
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
@@ -26,7 +25,7 @@ const PhonebookForm = () => {
     };
 
     const handleSubmit = () => {
-        dispatch(addPhonebook({name, phone, keyword, sort}));
+        dispatch(addPhonebook({ name, phone, keyword, sort }));
         console.log("Form Submitted", { name, phone });
         setName("");
         setPhone("");
