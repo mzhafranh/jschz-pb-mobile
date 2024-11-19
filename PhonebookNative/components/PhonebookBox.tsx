@@ -15,7 +15,7 @@ const PhonebookBox = () => {
 
   useEffect(() => {
     if (!phonebooks.length) {
-      console.log('fetch in PbBox');
+      console.log('Fetch in PbBox');
       dispatch(refreshPhonebookData({ keyword, sort, page: 1 }));
     }
   }, []);

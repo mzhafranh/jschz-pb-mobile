@@ -46,6 +46,7 @@ const PhonebookTopBar = () => {
           value={keyword}
           onChangeText={handleSearchChange}
           placeholder="Search"
+          placeholderTextColor="gray"
         />
       </View>
       <View style={styles.formContainer}>

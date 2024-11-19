@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-const local_url = 'http://192.168.1.5:3001'
+export const local_url = 'http://192.168.1.34:3001'
 
 interface FetchPhonebookParams {
   keyword: string;
@@ -57,7 +57,6 @@ interface PhonebookState {
 export const fetchPhonebookData = createAsyncThunk(
   'phonebook/fetchPhonebookData',
   async ({ keyword, sort, page }: FetchPhonebookParams, { dispatch }) => {
-    console.log('[fetchPhonebookData] called')
     const params = new URLSearchParams({
       keyword,
       sort,
@@ -80,7 +79,6 @@ export const fetchPhonebookData = createAsyncThunk(
 export const refreshPhonebookData = createAsyncThunk(
   'phonebook/refreshPhonebookData',
   async ({ keyword, sort, page }: FetchPhonebookParams, { dispatch }) => {
-    console.log('[refreshPhonebookData] called')
     const params = new URLSearchParams({
       keyword,
       sort,
@@ -184,34 +182,40 @@ const phonebookSlice = createSlice({
   name: 'phonebooks',
   initialState,
   reducers: {
-    setPage: (state, action) => { state.page = action.payload; },
-    setSort: (state, action) => { state.sort = action.payload; },
-    setKeyword: (state, action) => { state.keyword = action.payload;  },
-    setTotalPage: (state, action) => { state.totalPage = action.payload; },
-    setLoading: (state, action) => { state.loading = action.payload; },
+    setPage: (state, action) => { state.page = action.payload; console.log('Page:',action.payload)},
+    setSort: (state, action) => { state.sort = action.payload; console.log('Sort:',action.payload)},
+    setKeyword: (state, action) => { state.keyword = action.payload; console.log('Keyword:',action.payload)},
+    setTotalPage: (state, action) => { state.totalPage = action.payload; console.log('TotalPage:',action.payload)},
+    setLoading: (state, action) => { state.loading = action.payload; console.log('Loading:',action.payload)},
     clearPhonebook: (state) => {state.phonebooks = []}
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPhonebookData.pending, (state) => {
+        console.log('fetchPhonebookData pending');
         state.loading = true;
       })
       .addCase(fetchPhonebookData.fulfilled, (state, action) => {
+        console.log('fetchPhonebookData fulfilled');
         state.loading = false;
         state.phonebooks = [...state.phonebooks, ...action.payload];
       })
       .addCase(fetchPhonebookData.rejected, (state, action) => {
+        console.log('fetchPhonebookData rejected');
         state.loading = false;
         state.error = action.error.message ?? null;
       })
       .addCase(refreshPhonebookData.pending, (state) => {
+        console.log('refreshPhonebookData pending');
         state.loading = true;
       })
       .addCase(refreshPhonebookData.fulfilled, (state, action) => {
+        console.log('refreshPhonebookData fulfilled');
         state.loading = false;
         state.phonebooks = action.payload;
       })
       .addCase(refreshPhonebookData.rejected, (state, action) => {
+        console.log('refreshPhonebookData rejected');
         state.loading = false;
         state.error = action.error.message ?? null;
       });

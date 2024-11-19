@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, Image, TouchableOpacity, Alert } from "r
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUserTie, faPenToSquare, faTrashCan, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 import PhonebookDeleteConfirmation from "./PhonebookDeleteConfirmation";
-import { local_url } from "../App";
+import { local_url } from "../slices/phonebookSlice";
 import { launchImageLibrary } from "react-native-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";

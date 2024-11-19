@@ -13,6 +13,7 @@ import { RootStackParamList } from '../App';
 type HomeScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 const PhonebookForm = () => {
+    console.log("PbForm Rendered")
     const { keyword, sort } = useSelector((state: RootState) => state.phonebookReducer);
     const dispatch = useDispatch<AppDispatch>();
     const [name, setName] = useState("");

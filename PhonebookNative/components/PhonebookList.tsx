@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { View, ScrollView, useColorScheme, NativeSyntheticEvent, NativeScrollEvent, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import PhonebookItem from "./PhonebookItem";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
-import { fetchPhonebookData, refreshPhonebookData, setLoading, setPage } from "../slices/phonebookSlice";
+import { fetchPhonebookData, setPage } from "../slices/phonebookSlice";
 import { useNavigation } from "@react-navigation/native";
 
 const PhonebookList = () => {
@@ -39,8 +38,7 @@ const PhonebookList = () => {
    // Reset scroll state when screen gains focus
    useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      console.log('sampai focus')
-      console.log('hasScrolled', hasScrolled)
+      console.log('Sampai Focus - hasScrolled', hasScrolled)
       dispatch(setPage(1));
       setIsFetching(false)
       setHasScrolled(false); // Reset scrolling state on screen focus

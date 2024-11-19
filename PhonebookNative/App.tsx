@@ -22,8 +22,6 @@ import FormScreen from './screens/FormScreen';
 import { Provider } from 'react-redux';
 import store from './store';
 
-export const local_url = 'http://192.168.1.5:3001'
-
 export type RootStackParamList = {
   Home: undefined;
   Form: undefined;
